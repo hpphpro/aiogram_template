@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+
+  tg:
+    build: .
+    restart: always
+    container_name: tg
+    networks:
+      - app-network
+    volumes:
+      - ./:/usr/src/project/
+    working_dir: /usr/src/project/
+    command: /bin/sh -c 'alembic upgrade head && python -m src'
+
+  database:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    networks:
+      - app-network
+    env_file:
+      - ./.env
+    ports:
+      - '5432'
+
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
