@@ -1,8 +1,8 @@
 from aiogram import types, F, Router
 from aiogram.fsm.context import FSMContext
 
-from utils.logger import Logger
-from utils.text import ERROR_RESPONSE
+from src.utils.logger import Logger
+from src.utils.text import ERROR_RESPONSE
 
 error_router = Router()
 logger = Logger('error')

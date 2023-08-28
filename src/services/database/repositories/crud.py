@@ -3,7 +3,6 @@ from typing import (
     Dict, 
     TypeVar,
     Iterable, 
-    List, 
     Optional, 
     Type, 
     Union, 
@@ -20,8 +19,8 @@ from sqlalchemy import (
     ColumnElement
 )
 
-from common.database.interfaces.repositories.crud import AbstractCRUDRepository
-from services.database.models.base import Base
+from src.common.database.interfaces.repositories.crud import AbstractCRUDRepository
+from src.services.database.models.base import Base
 
 
 Model = TypeVar('Model', bound=Base)

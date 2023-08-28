@@ -1,7 +1,7 @@
 from typing import Tuple, Type
 
-from .base import BaseRepository
-from .user import UserRepository
+from src.services.database.repositories.base import BaseRepository
+from src.services.database.repositories.user import UserRepository
 
 __all__ = (
     'UserRepository',

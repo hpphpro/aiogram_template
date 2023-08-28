@@ -3,7 +3,7 @@ from typing import Any, List, Optional, Union
 from aiogram.filters import Filter 
 from aiogram import types
 
-from core import settings
+from src.core import settings
 
 
 class IsAdmin(Filter):

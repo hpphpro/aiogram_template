@@ -3,9 +3,9 @@ import asyncio
 
 from aiogram.types import BotCommand
 
-from core import bot, dp
-from routers import router
-from common.middlewares import DatabaseMiddleware
+from src.core import bot, dp
+from src.routers import router
+from src.common.middlewares import DatabaseMiddleware
 
 
 async def on_startup() -> None:
@@ -34,6 +34,7 @@ async def main() -> None:
     await register_bot_commands()
     await register_middlewares()
     await register_routers()
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 
 if __name__ == '__main__':

@@ -1,21 +1,19 @@
 from typing import (
     Optional,
-    cast,
     Type,
     List,
     ClassVar,
-    Union,
 )
 
-from .base import BaseRepository
-from services.database.models.user import User
-from common.database.interfaces.repositories.base import Repository
-from common.dto import (
+from src.services.database.repositories.base import BaseRepository
+from src.services.database.models.user import User
+from src.common.database.interfaces.repositories.base import Repository
+from src.common.dto import (
     UserCreate, 
     UserDTO,
     UserUpdate,
 )
-from common.converters import convert_user_model_to_dto
+from src.common.converters import convert_user_model_to_dto
 
 
 class UserRepository(

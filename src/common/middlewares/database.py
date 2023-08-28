@@ -8,11 +8,9 @@ from typing import (
 from aiogram import BaseMiddleware
 from aiogram import types
 
-from services.database.core.connection import async_engine, async_session
-from services.database.core import Database
-from common.dto import UserCreate
-
-
+from src.services.database.core.connection import async_engine, async_session
+from src.services.database.core import Database
+from src.common.dto import UserCreate
 
 class DatabaseMiddleware(BaseMiddleware):
 

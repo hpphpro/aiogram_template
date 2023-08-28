@@ -1,4 +1,4 @@
-from .database import Database 
+from src.services.database.core.database import Database 
 
 
 __all__ = (

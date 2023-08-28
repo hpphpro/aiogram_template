@@ -8,7 +8,6 @@ from typing import (
     Iterable, 
     Union, 
     Sequence, 
-    List, 
     TypeVar,
 )
 from sqlalchemy import ColumnElement

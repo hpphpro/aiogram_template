@@ -1,5 +1,5 @@
-from services.database.models.user import User 
-from common.dto.user import UserDTO 
+from src.services.database.models.user import User 
+from src.common.dto.user import UserDTO 
 
 
 def convert_user_model_to_dto(user: User) -> UserDTO:

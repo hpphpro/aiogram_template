@@ -1,16 +1,17 @@
 from aiogram import Dispatcher, Bot
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.fsm.storage.redis import RedisStorage
 
-from core.settings import load_settings
+from src.core.settings import load_settings
 
 settings = load_settings()
 
 try:
+    from aiogram.fsm.storage.redis import RedisStorage
     import redis.asyncio as aioredis  # type: ignore
     storage = RedisStorage(redis=aioredis.Redis(**settings.redis_settings))
 except ImportError: 
+    from aiogram.fsm.storage.memory import MemoryStorage
     storage = MemoryStorage() # type: ignore
+
 
 dp = Dispatcher(storage=storage)
 bot = Bot(

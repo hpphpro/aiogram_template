@@ -5,10 +5,10 @@ from typing import no_type_check
 import nest_asyncio # type: ignore
 from alembic import context
 from sqlalchemy import engine_from_config, pool
-from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 
-from services.database.models import Base
-from core import settings
+from src.services.database.models import Base
+from src.core import settings
 
 target_metadata = Base.metadata
 
@@ -43,7 +43,7 @@ def run_migrations_offline() -> None:
 
 
 @no_type_check
-def do_run_migrations(connection) -> None:
+def do_run_migrations(connection: AsyncConnection) -> None: 
     context.configure(
         connection=connection,
         target_metadata=target_metadata,

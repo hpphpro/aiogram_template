@@ -1,7 +1,7 @@
 from aiogram import Router 
 
-from routers.client import client_router
-from .error import error_router
+from src.routers.client import client_router
+from src.routers.error import error_router
 
 router = Router(name='main')
 router.include_routers(

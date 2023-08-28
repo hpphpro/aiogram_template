@@ -1,4 +1,4 @@
-from .loader import settings, bot, dp, storage
+from src.core.loader import settings, bot, dp, storage
 
 __all__ = (
     'settings',

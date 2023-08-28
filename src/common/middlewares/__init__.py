@@ -1,5 +1,5 @@
-from .database import DatabaseMiddleware 
-from .trottle import TrottlingMiddleware
+from src.common.middlewares.database import DatabaseMiddleware 
+from src.common.middlewares.trottle import TrottlingMiddleware
 
 
 __all__ = (

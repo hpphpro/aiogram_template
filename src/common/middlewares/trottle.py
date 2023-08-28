@@ -9,8 +9,8 @@ from typing import (
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject, CallbackQuery, Message
 
-from core import storage
-from utils.text import USER_STOP_SPAM_MESSAGE, USER_STOP_SPAM_CALLBACK_MESSAGE
+from src.core import storage
+from src.utils.text import USER_STOP_SPAM_MESSAGE, USER_STOP_SPAM_CALLBACK_MESSAGE
 
 
 TRIGGER_VALUE: Final[int] = 2

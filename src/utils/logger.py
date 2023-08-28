@@ -4,7 +4,7 @@ from logging import Handler
 from logging.handlers import RotatingFileHandler
 from typing import Dict, Any
 
-from core import settings
+from src.core import settings
 
 
 LOGGING_EXCEPTIONS: Dict[str, Any] = {

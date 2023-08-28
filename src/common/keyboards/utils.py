@@ -11,7 +11,8 @@ from typing import (
 
 from aiogram import types
 
-from .inline import inline_keyboard, get_inline_button
+from src.common.keyboards.inline import inline_keyboard, get_inline_button
+
 
 DEFAULT_STEP: Final[int] = 2
 

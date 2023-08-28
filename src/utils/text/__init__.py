@@ -1,1 +1,1 @@
-from .client import *
+from src.utils.text.client import *
