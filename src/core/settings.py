@@ -27,11 +27,11 @@ class Settings(BaseSettings):
     )
     bot_token: str
     database_uri: str
-    database_host: str
-    database_port: int
-    database_user: str
     database_name: str
-    database_password: str
+    database_host: Optional[str] = None
+    database_port: Optional[int] = None
+    database_user: Optional[str] = None
+    database_password: Optional[str] = None
     admins: Optional[List[int]] = None
     parse_mode: Union[ParseMode, str] = ParseMode.HTML
     disable_web_page_preview: Optional[bool] = True

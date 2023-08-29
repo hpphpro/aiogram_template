@@ -15,6 +15,7 @@ services:
 
   database:
     image: postgres:latest
+    container_name: database
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
