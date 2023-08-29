@@ -10,7 +10,8 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject, CallbackQuery, Message
 
 from src.core import storage
-from src.utils.text import USER_STOP_SPAM_MESSAGE, USER_STOP_SPAM_CALLBACK_MESSAGE
+from src.common.middlewares.i18n import gettext as _
+
 
 
 TRIGGER_VALUE: Final[int] = 2
@@ -19,6 +20,7 @@ DEFAULT_CALLBACK_TIMEOUT: Final[int] = 1
 
 
 class TrottlingMiddleware(BaseMiddleware):
+    
 
     async def __call__(
             self,
@@ -26,15 +28,17 @@ class TrottlingMiddleware(BaseMiddleware):
             event: TelegramObject,
             data: Dict[str, Any]
     ) -> Any:
+        
+        from src.utils.text.client import USER_STOP_SPAM_MESSAGE, USER_STOP_SPAM_CALLBACK_MESSAGE
 
         if isinstance(event, CallbackQuery):
             user = f'user_call_{event.from_user.id}'
             timeout = DEFAULT_CALLBACK_TIMEOUT
-            message = USER_STOP_SPAM_MESSAGE
+            message = _(USER_STOP_SPAM_MESSAGE)
         if isinstance(event, Message):
             user = f'user_message_{event.from_user.id}' # type: ignore
             timeout = DEFAULT_MESSAGE_TIMEOUT
-            message = USER_STOP_SPAM_CALLBACK_MESSAGE
+            message = _(USER_STOP_SPAM_CALLBACK_MESSAGE)
 
         is_trottled = await storage.redis.get(user)
         if is_trottled:

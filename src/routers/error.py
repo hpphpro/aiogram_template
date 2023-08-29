@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 
 from src.utils.logger import Logger
 from src.utils.text import ERROR_RESPONSE
+from src.common.middlewares.i18n import gettext as _
 
 error_router = Router()
 logger = Logger('error')
@@ -22,5 +23,5 @@ async def error_event(
         f'from_user: {user_id}(username={username})\n'
         f'from_message: {message.text}'
     )
-    await message.answer(ERROR_RESPONSE, reply_markup=types.ReplyKeyboardRemove())
+    await message.answer(_(ERROR_RESPONSE), reply_markup=types.ReplyKeyboardRemove())
     

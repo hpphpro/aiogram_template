@@ -8,14 +8,18 @@ from typing import (
 from aiogram import BaseMiddleware
 from aiogram import types
 
-from src.services.database.core.connection import async_engine, async_session, create_session_factory
+from src.services.database.core.connection import (
+    async_engine, 
+    create_session_factory, 
+    async_session,
+)
 from src.services.database.core import Database
 from src.common.dto import UserCreate
 
 class DatabaseMiddleware(BaseMiddleware):
 
     def __init__(self) -> None:
-        self._factory = create_session_factory(async_engine())
+        self._engine = create_session_factory(async_engine())
 
     async def __call__(
             self,
@@ -26,7 +30,7 @@ class DatabaseMiddleware(BaseMiddleware):
 
         user: types.User = event.from_user # type: ignore
         user_id = event.from_user.id # type: ignore
-        async with Database(async_session(self._factory)) as db:
+        async with Database(async_session(self._engine)) as db:
             data['db'] = db
             db_user = await db.user.select(user_id)
             if not db_user:

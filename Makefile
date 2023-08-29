@@ -34,10 +34,15 @@ docker_down: ## Stop Docker container
 babel_compile: ## Compile translations
 	pybabel compile -d $(package_dir)/common/locales -D messages
 
-.PHONY: babel_update
-babel_update: ## Update translations
+.PHONY: babel_extract
+babel_extract: ## Extract text for translations
 	pybabel extract --input-dirs=$(package_dir) -o $(package_dir)/common/locales/messages.pot
 	pybabel update -i $(package_dir)/common/locales/messages.pot -d $(package_dir)/common/locales
+
+.PHONY: babel_update
+babel_update: ## Update translations
+	pybabel update -d $(package_dir)/common/locales -D messages -i $(package_dir)/common/locales/messages.pot
+
 
 .PHONY: alembic_upgrade
 alembic_upgrade: ## Run Alembic migrations
