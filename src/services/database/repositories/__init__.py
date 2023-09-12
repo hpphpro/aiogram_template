@@ -7,6 +7,6 @@ __all__ = (
     'UserRepository',
 )
 
-REPOSITORIES: Tuple[Type[BaseRepository]] = (
+REPOSITORIES = (
     UserRepository,
 )
