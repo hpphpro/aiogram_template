@@ -3,23 +3,26 @@ from typing import (
     Awaitable, 
     Callable, 
     Dict,
+    Optional,
 )
 
 from aiogram import BaseMiddleware
 from aiogram import types
+from sqlalchemy.ext.asyncio import AsyncEngine
 
-from src.services.database.core.connection import (
+from src.database.core.connection import (
     async_engine, 
     create_session_factory, 
     async_session,
 )
-from src.services.database.core import Database
-from src.common.dto import UserCreate
+from src.database.core import Database
+from src.database.dto import UserCreate
+
 
 class DatabaseMiddleware(BaseMiddleware):
 
-    def __init__(self) -> None:
-        self._session_factory = create_session_factory(async_engine())
+    def __init__(self, engine: Optional[AsyncEngine] = None) -> None:
+        self._session_factory = create_session_factory(engine or async_engine())
 
     async def __call__(
             self,

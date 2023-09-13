@@ -5,10 +5,10 @@ from typing import Optional, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-from src.services.database.core.unit_of_work import UnitOfWork
-from src.services.database.core.connection import async_session
-from src.services.database.core.mediator import build_mediator
-from src.services.database.repositories import (
+from src.database.core.unit_of_work import UnitOfWork
+from src.database.core.connection import async_session
+from src.database.core.mediator import build_mediator
+from src.database.repositories import (
     UserRepository,
 )
 

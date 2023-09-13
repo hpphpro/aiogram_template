@@ -8,7 +8,7 @@ from sqlalchemy import (
     BigInteger, 
 )
 
-from src.services.database.models.base import ModelWithTime, Base
+from src.database.models.base import ModelWithTime, Base
 
 
 

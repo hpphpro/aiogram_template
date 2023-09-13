@@ -7,13 +7,13 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncConnection
 
-from src.services.database.models import Base
-from src.core import settings
+from src.database.models import Base
+from src.core import load_settings
 
 target_metadata = Base.metadata
 
 config = context.config  
-config.set_main_option('sqlalchemy.url', settings.db_url)
+config.set_main_option('sqlalchemy.url', load_settings().db_url)
 
 fileConfig(config.config_file_name) # type: ignore
 
@@ -44,6 +44,7 @@ def run_migrations_offline() -> None:
 
 @no_type_check
 def do_run_migrations(connection: AsyncConnection) -> None: 
+    
     context.configure(
         connection=connection,
         target_metadata=target_metadata,

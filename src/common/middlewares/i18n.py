@@ -4,9 +4,9 @@ from aiogram.utils.i18n import I18n
 from aiogram.utils.i18n.context import gettext as _
 from aiogram.utils.i18n.middleware import SimpleI18nMiddleware
 
-from src.core import settings
+from src.core.settings import Settings
 
-DEFAULT_LOCALE_PATH: str = settings.path('src', 'common', 'locales')
+DEFAULT_LOCALE_PATH: str = Settings.path('src', 'common', 'locales')
 DEFAULT_LOCALE: Final[str] = 'en'
 
 

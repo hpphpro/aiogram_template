@@ -1,8 +1,13 @@
-from src.core.loader import settings, bot, dp, storage
+from src.core.settings import load_settings
+from src.core.loader import (
+    load_bot, 
+    load_dispatcher, 
+    load_storage,
+)
 
 __all__ = (
-    'settings',
-    'dp',
-    'bot',
-    'storage',
+    'load_settings',
+    'load_bot',
+    'load_dispatcher',
+    'load_storage',
 )

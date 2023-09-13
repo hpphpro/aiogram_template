@@ -3,12 +3,12 @@ from typing import Any, List, Optional, Union
 from aiogram.filters import Filter 
 from aiogram import types
 
-from src.core import settings
+from src.core import load_settings
 
 
 class IsAdmin(Filter):
 
-    def __init__(self, admins: Optional[List[int]] = settings.admins) -> None:
+    def __init__(self, admins: Optional[List[int]] = load_settings().admins) -> None:
         self.admins = admins or []
 
     async def __call__(

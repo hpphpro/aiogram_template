@@ -19,7 +19,7 @@ DEFAULT_STEP: Final[int] = 2
 
 def is_list_or_tuple_of_type(
         _type: Any,
-        data: Union[List[Dict[str, Any]], Tuple[Dict[str, Any]], List[str], Tuple[str]]
+        data: Union[List[Dict[str, Any]], Tuple[Dict[str, Any], ...], List[str], Tuple[str]]
 ) -> TypeGuard[Union[List[Dict[str, Any]], Tuple[Dict[str, Any]]]]:
     if not isinstance(data, (list, tuple)):
         raise TypeError(f'data should be list or tuple type, not {type(data)}')
@@ -35,7 +35,7 @@ def build_buttons(
 
 
 def build_markup(
-        data: Union[str, Dict[str, Any], Tuple[Dict[str, Any]], List[Dict[str, Any]], List[str], Tuple[str]],
+        data: Union[str, Dict[str, Any], Tuple[Dict[str, Any], ...], List[Dict[str, Any]], List[str], Tuple[str]],
         keyboard: Callable[..., Union[types.InlineKeyboardMarkup, types.ReplyKeyboardMarkup]] = inline_keyboard,
         buttons: Callable[..., Union[types.KeyboardButton, types.InlineKeyboardButton]] = get_inline_button,
         step: int = DEFAULT_STEP

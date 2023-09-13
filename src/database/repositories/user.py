@@ -5,15 +5,15 @@ from typing import (
     ClassVar,
 )
 
-from src.services.database.repositories.base import BaseRepository
-from src.services.database.models.user import User
-from src.common.database.interfaces.repositories.base import Repository
-from src.common.dto import (
+from src.database.repositories.base import BaseRepository
+from src.database.models.user import User
+from src.database.interfaces.repositories.base import Repository
+from src.database.dto import (
     UserCreate, 
     UserDTO,
     UserUpdate,
 )
-from src.common.converters import convert_user_model_to_dto
+from src.database.converters import convert_user_model_to_dto
 
 
 class UserRepository(

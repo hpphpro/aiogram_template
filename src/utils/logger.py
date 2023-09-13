@@ -4,11 +4,12 @@ from logging import Handler
 from logging.handlers import RotatingFileHandler
 from typing import Dict, Any
 
-from src.core import settings
+from src.core.settings import Settings
 
 
 LOGGING_EXCEPTIONS: Dict[str, Any] = {
-    name: logging.CRITICAL for name in logging.root.manager.loggerDict
+    # you can actually use this if you want disable all of loggers.
+    # name: logging.CRITICAL for name in logging.root.manager.loggerDict 
 }
 
 
@@ -23,14 +24,14 @@ class Logger(logging.Logger):
             logging_exceptions: Dict[str, int] = LOGGING_EXCEPTIONS
     ) -> None:
         super().__init__(name, level)
-        os.makedirs(settings.path('logs'), exist_ok=True)
+        os.makedirs(Settings.path('logs'), exist_ok=True)
         self.set_logging_exceptions(logging_exceptions)
         if use_default_handlers:
             self.set_default_handlers()
 
     def set_default_handlers(self) -> None:
         file: Handler = RotatingFileHandler(
-            filename=settings.path('logs', f'{self.name}.log'),
+            filename=Settings.path('logs', f'{self.name}.log'),
             encoding='utf-8',
             backupCount=0,
             maxBytes=104857600,  # 100mb as 1024^2 when 1 mb = 1024
