@@ -58,7 +58,7 @@ async def main() -> None:
     settings = load_settings()
     bot = load_bot(settings)
     storage = load_storage(settings)
-    dp = load_dispatcher(settings, storage)
+    dp = load_dispatcher(storage)
     engine = async_engine()
     await on_startup(bot)
     await register_bot_commands(bot)

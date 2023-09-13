@@ -20,7 +20,7 @@ def load_storage(settings: Settings) -> BaseStorage:
 
 
 def load_dispatcher(
-        settings: Settings, storage: Optional[BaseStorage] = None
+        storage: Optional[BaseStorage] = None
 ) -> Dispatcher:
     return Dispatcher(storage=storage)
 
