@@ -40,6 +40,14 @@ services:
     ports:
       - '5432'
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    networks:
+      - app-network
+
+
 
 volumes:
   postgres_data:

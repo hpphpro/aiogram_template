@@ -1,1 +1,1 @@
-from src.routers.client.commands.start import *
+from src.routers.client.commands.test_start import *
