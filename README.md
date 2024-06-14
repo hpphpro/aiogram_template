@@ -59,7 +59,7 @@ alembic revision --autogenerate -m 'initial' && alembic upgrade head
 ```
 To create locale, for example `en`:
 ```
-pybabel init -i src/common/locales/messages.pot -d src/common/locales -D messages -l en -> Windows
+pybabel init -i locales/messages.pot -d locales -D messages -l en -> Windows
 make babel_init -> Unix
 ```
 Extract text/update/compile:

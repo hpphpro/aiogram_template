@@ -15,20 +15,20 @@ run_local: ## Run the application locally
 
 .PHONY: docker_build
 docker_build: ## Build Docker image
-	docker compose build
+	docker-compose build
 
 .PHONY: docker_rebuild
 docker_rebuild: ## Rebuild Docker image
-	docker compose down
-	docker compose build --no-cache
+	docker-compose down
+	docker-compose build --no-cache
 
 .PHONY: docker_up
 docker_up: ## Run Docker container
-	docker compose up -d
+	docker-compose up -d
 
 .PHONY: docker_down
 docker_down: ## Stop Docker container
-	docker compose down
+	docker-compose down
 
 .PHONY: babel_compile
 babel_compile: ## Compile translations
