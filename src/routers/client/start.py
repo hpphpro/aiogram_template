@@ -3,7 +3,7 @@ from typing import Annotated, Any
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 
-from src.common.di import Depends
+from src.common.di import Depends, inject
 from src.common.extensions import Chat, Pagination
 from src.database.gateway import DBGateway
 
@@ -40,4 +40,4 @@ async def start_message(
     await message.answer("Hello World!")
     pagination.clear(identifier)
     await state.set_state()
-    chat.set_callback(identifier, start_message, from_start=True)
+    chat.set_callback(identifier, inject(start_message), from_start=True)

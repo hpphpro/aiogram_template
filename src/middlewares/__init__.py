@@ -1,7 +1,6 @@
 from aiogram import BaseMiddleware, Router
 
 from src.core.logger import log
-from src.middlewares.auto_inject import AutoInjectMiddleware
 from src.middlewares.chat import ChatMiddleware
 from src.middlewares.error import ErrorMiddleware
 from src.middlewares.i18n import simple_locale_middleware

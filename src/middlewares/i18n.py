@@ -21,8 +21,10 @@ try:
 
     gettext = i18n.gettext
 except ImportError:
-    pass
-
+    simple_locale_middleware = None # type: ignore
+    i18n = None # type: ignore
+    gettext = lambda *args, **kw: None # type: ignore # noqa
+    
 
 def _user_id_from_data(data: Dict[str, Any]) -> Optional[int]:
     return user.id if (user := data.get("event_from_user")) else None

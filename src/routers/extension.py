@@ -3,6 +3,7 @@ from typing import Any, get_type_hints
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 
+from src.common.di import inject, is_injected
 from src.common.exceptions import NotValidChatError, PaginatorWasNotSetError
 from src.common.extensions import Chat, Pagination, call_as_message
 from src.keyboard import build_inline_markup
@@ -21,7 +22,14 @@ async def back_callback(
     if not callback:
         message = call_as_message(call)
         await message.delete()
-        await start_message(message, chat=chat, identifier=identifier, state=state, **kw) # type: ignore
+        if is_injected(start_message):
+            await start_message(
+                message, chat=chat, identifier=identifier, state=state, **kw
+            )
+        else:
+            await inject(start_message)(
+                message, chat=chat, identifier=identifier, state=state, **kw
+            )  # type: ignore
     else:
         func_name = callback.__name__
 
@@ -45,7 +53,7 @@ async def paginate_next_callback(
     data = pagination.get(identifier)
     if not data:
         raise PaginatorWasNotSetError("Paginator was not set")
-    
+
     buttons = [
         await data.data_func(elem) if data.is_data_func_async else data.data_func(elem)
         for elem in await data.next()

@@ -17,7 +17,7 @@ class ErrorMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         try:
-            await handler(event, data)
+            return await handler(event, data)
         except Exception as e:
             message = "Something goes wrong. Try to restart\n"
             if self._is_backoff:

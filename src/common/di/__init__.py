@@ -21,6 +21,7 @@ __all__ = (
     "DependencyContainer",
     "Depends",
     "inject",
+    "is_injected",
 )
 
 R = TypeVar("R")
@@ -29,6 +30,10 @@ P = ParamSpec("P")
 
 def Depends(dependency: Optional[Any] = None) -> Any:
     return depends.Depends(dependency)
+
+
+def is_injected(obj: Any) -> bool:
+    return hasattr(obj, '__injected__')
 
 
 @overload
@@ -55,6 +60,7 @@ def inject(__func_or_coro: Any, /) -> Any:
         __func_or_coro
     ) or inspect.isasyncgenfunction(__func_or_coro)
 
+    
     if is_async:
         return _wrap_async_injection(__func_or_coro, origin_signature)
     else:
@@ -73,6 +79,8 @@ def _wrap_sync_injection(
         finally:
             for _exit in exits:
                 _exit.close()
+
+    setattr(_wrapper, '__injected__', True)
 
     return _wrapper
 
@@ -95,5 +103,7 @@ def _wrap_async_injection(
         finally:
             for _exit in exits:
                 await _exit.aclose()
+
+    setattr(_async_wrapper, "__injected__", True)
 
     return _async_wrapper

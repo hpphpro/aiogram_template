@@ -18,7 +18,6 @@ from src.database.core.connection import (
 )
 from src.database.gateway import DBGateway, get_gateway_lazy
 from src.middlewares import (
-    AutoInjectMiddleware,
     ChatMiddleware,
     ErrorMiddleware,
     setup_middlewares,
@@ -59,11 +58,11 @@ async def main() -> None:
     container[DBGateway] = get_gateway_lazy(session_factory)
 
     dp.include_router(router)
-
     setup_middlewares(
-        router,
-        AutoInjectMiddleware(),  # if you want to use custom Dependency without inject decorator.
-        ChatMiddleware(),
+        dp,
+        ChatMiddleware(
+            wrap_injection=True  # if you want to use custom Dependency without inject decorator.
+        ),
         ErrorMiddleware(with_backoff_error=True),
         is_outer=False,
     )
