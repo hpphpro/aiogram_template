@@ -13,7 +13,7 @@ from src.database.gateway import DBGateway
 # you should use this decorator anyway
 async def start_message(
     message: types.Message,
-    # If this is called from `back_callback``, it sets a message from the CallbackQuery,
+    # If this is called from `back_callback`, it sets a message from the CallbackQuery,
     # indicating that the user belongs to the bot, not the actual user. So we need the actual user instead
     # NOTE: using `user.id` or `user.<anything>` instead of `message.from_user`
     user: types.User,
