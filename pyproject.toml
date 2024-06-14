@@ -1,0 +1,31 @@
+[tool.mypy]
+# disable_error_code = ["union-attr", "var-annotated"]
+warn_unused_ignores = false
+follow_imports_for_stubs = true
+pretty = true
+show_absolute_path = true
+hide_error_codes = false
+show_error_context = true
+strict = true
+warn_unreachable = true
+warn_no_return = true
+
+[lint.tool.ruff]
+ignore = [
+  "E501",
+  "B008",
+  "C901",
+  "W191",
+  "UP007",
+  "UP006",
+]
+select = [
+  "E",
+  "W",
+  "F",
+  "I",
+  "C",
+  "B",
+  "UP",
+]
+

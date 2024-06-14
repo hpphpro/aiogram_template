@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+
+  # for postgres
+  # migrate:
+  #   build: .
+  #   container_name: migrate
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - app-network
+  #   working_dir: /usr/src/project/
+  #   command: alembic upgrade head
+
+  tg:
+    build: .
+    restart: always
+    container_name: tg
+    networks:
+      - app-network
+    volumes:
+      - ./:/usr/src/project/
+    working_dir: /usr/src/project/
+    command: python -m src
+
+  # for postgres
+  # database:
+  #   image: postgres:latest
+  #   container_name: database
+  #   restart: always
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_DB: ${DATABASE_NAME}
+  #     POSTGRES_USER: ${DATABASE_USER}
+  #     POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+  #   networks:
+  #     - app-network
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - '5432'
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    networks:
+      - app-network
+
+
+# for postgres
+# volumes:
+#   postgres_data:
+
+networks:
+  app-network:
