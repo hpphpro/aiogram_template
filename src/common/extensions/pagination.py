@@ -7,7 +7,6 @@ from typing import (
     Final,
     Optional,
     Protocol,
-    Sequence,
     Union,
     overload,
 )
@@ -43,7 +42,6 @@ class Paginator:
         "_limit",
         "_page",
         "_is_paginate_func_async",
-        "_next_data",
     )
 
     def __init__(
@@ -65,7 +63,6 @@ class Paginator:
         self._limit = limit
         self._page = page
         self._is_paginate_func_async = inspect.iscoroutinefunction(paginate_func)
-        self._next_data: Optional[Sequence[Any]] = None
 
     @property
     def current_page(self) -> int:
@@ -85,8 +82,6 @@ class Paginator:
 
         self.additional["offset"] = (self._page - 1) * self._limit
 
-        self._next_data = data
-
         return bool(data)
 
     async def is_previous_exists(self) -> bool:
@@ -96,12 +91,6 @@ class Paginator:
         self._page += 1
 
         self.additional["offset"] = (self._page - 1) * self._limit
-
-        if self._next_data:
-            try:
-                return self._next_data
-            finally:
-                self._next_data = None
 
         if self._is_paginate_func_async:
             return await self.paginate_func(**self.additional)
