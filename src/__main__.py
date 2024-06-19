@@ -61,7 +61,7 @@ async def main() -> None:
 
     dp.include_router(router)
     setup_middlewares(
-        dp,
+        router,
         ChatMiddleware(
             wrap_injection=True  # if you want to use custom Dependency without inject decorator.
         ),

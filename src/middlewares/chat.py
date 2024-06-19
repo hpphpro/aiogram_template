@@ -6,6 +6,7 @@ from aiogram.types import CallbackQuery, Message, TelegramObject, Update
 
 from src.common.di import inject, is_injected
 from src.common.extensions.chat import Chat
+from src.common.exceptions import UserNotPresentError
 from src.core.logger import log
 
 
@@ -33,6 +34,8 @@ class ChatMiddleware(BaseMiddleware):
             elif event.message:
                 chat_id = event.message.chat.id
                 user = event.message.from_user # type: ignore
+            else:
+                raise UserNotPresentError('User was not present in a event')
 
             if not event_user:
                 event_user = user
