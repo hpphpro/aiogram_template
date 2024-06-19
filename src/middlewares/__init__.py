@@ -20,6 +20,8 @@ def setup_middlewares(
 
     for middleware in middlewares:
         for observer in router.observers.values():
+            if observer.event_name == 'update':
+                continue
             if is_outer:
                 observer.outer_middleware(middleware)
             else:
