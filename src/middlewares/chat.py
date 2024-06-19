@@ -67,3 +67,5 @@ class ChatMiddleware(BaseMiddleware):
             if self._wrap_injection and not is_injected(result):
                 result = inject(result)
             chat.set_callback(identifier, result)
+
+        return result
