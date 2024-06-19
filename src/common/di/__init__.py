@@ -38,22 +38,14 @@ def is_injected(obj: Any) -> bool:
 
 @overload
 def inject(__coro: Callable[P, Awaitable[R]], /) -> Callable[P, Awaitable[R]]: ...
-
-
 @overload
 def inject(
     __coro: Callable[P, AsyncIterator[R]], /
 ) -> Callable[P, AsyncIterator[R]]: ...
-
-
 @overload
 def inject(__func: Callable[P, Iterator[R]], /) -> Callable[P, Iterator[R]]: ...
-
-
 @overload
 def inject(__func: Callable[P, R], /) -> Callable[P, R]: ...
-
-
 def inject(__func_or_coro: Any, /) -> Any:
     origin_signature = inspect.signature(__func_or_coro)
     is_async = asyncio.iscoroutinefunction(

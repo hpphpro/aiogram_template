@@ -25,6 +25,7 @@ from src.middlewares import (
 from src.routers import setup_routers
 from src.routers.admin import setup_admin_router
 from src.routers.client import setup_client_router
+from src.routers.examples import setup_example_router
 
 
 async def set_menu_commands(bot: Bot) -> None:
@@ -39,6 +40,7 @@ async def main() -> None:
     router = setup_routers(
         setup_client_router(),
         setup_admin_router(settings.bot.admins),
+        setup_example_router(), # TODO: delete it, it just for test
     )
     engine = create_sa_engine(
         settings.db.url,

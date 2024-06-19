@@ -6,6 +6,9 @@ from aiogram.fsm.context import FSMContext
 from src.common.di import Depends, inject
 from src.common.extensions import Chat, Pagination
 from src.database.gateway import DBGateway
+from src.keyboard import build_inline_markup
+from src.keyboard.buttons import button
+from src.routers.examples.pagination import paginate_users_button
 
 
 # @inject we dont need this if using auto inject middleware for any callback
@@ -22,7 +25,7 @@ async def start_message(
     pagination: Pagination,
     state: FSMContext,
     gateway: Annotated[DBGateway, Depends()],  # our custom dependency
-    **__: Any,  # need to set everywhere to chat capability
+    **_: Any,  # need to set everywhere to chat capability
 ) -> None:
     repository = gateway.user()
     await (
@@ -37,7 +40,10 @@ async def start_message(
     else:
         await repository.create(**user.model_dump())
 
-    await message.answer("Hello World!")
+    await message.answer(
+        "Hello World!", 
+        reply_markup=build_inline_markup(paginate_users_button(), button(text='Chat', callback_data='first_menu'))
+    )
     pagination.clear(identifier)
     await state.set_state()
     chat.set_callback(identifier, inject(start_message), from_start=True)

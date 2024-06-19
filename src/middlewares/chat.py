@@ -2,7 +2,7 @@ from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.handler import HandlerObject
-from aiogram.types import CallbackQuery, Message, TelegramObject
+from aiogram.types import CallbackQuery, Message, TelegramObject, Update
 
 from src.common.di import inject, is_injected
 from src.common.extensions.chat import Chat
@@ -25,7 +25,21 @@ class ChatMiddleware(BaseMiddleware):
         if self._wrap_injection and not is_injected(old_handler.callback):
             old_handler.callback = inject(old_handler.callback)
 
-        if isinstance(event, CallbackQuery):
+        if isinstance(event, Update):
+            event_user = data['event_from_user']
+            if event.callback_query:
+                user = event.callback_query.from_user
+                chat_id = event.callback_query.message.chat.id if event.callback_query.message else ''
+            elif event.message:
+                chat_id = event.message.chat.id
+                user = event.message.from_user # type: ignore
+
+            if not event_user:
+                event_user = user
+            
+            data["user"] = event_user
+            identifier = f"{user.id}:{chat_id}"
+        elif isinstance(event, CallbackQuery):
             message = event.message
             data["user"] = event.from_user
             if isinstance(message, Message):
@@ -33,7 +47,7 @@ class ChatMiddleware(BaseMiddleware):
             else:
                 identifier = f"{event.from_user.id}"
         elif isinstance(event, Message):
-            user = event.from_user
+            user = event.from_user # type: ignore
             if user:
                 data["user"] = user
                 identifier = f"{user.id}:{event.chat.id}"
