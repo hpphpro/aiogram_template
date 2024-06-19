@@ -49,7 +49,7 @@ async def third_menu_callback(
 
 """
 Note that if we want to back from third to second, we should set third callback to the stack, because it will be popped first
-If we want to back from third to first, we should set third callback to the stack
+If we want to back from third to first, we should'nt set third callback to the stack
 
 So,
 
