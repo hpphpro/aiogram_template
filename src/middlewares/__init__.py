@@ -8,7 +8,6 @@ from src.middlewares.i18n import simple_locale_middleware
 __all__ = (
     "ChatMiddleware",
     "simple_locale_middleware",
-    "AutoInjectMiddleware",
     "ErrorMiddleware",
 )
 
@@ -20,7 +19,7 @@ def setup_middlewares(
 
     for middleware in middlewares:
         for observer in router.observers.values():
-            if observer.event_name == 'update':
+            if observer.event_name == "update":
                 continue
             if is_outer:
                 observer.outer_middleware(middleware)
