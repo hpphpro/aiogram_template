@@ -74,7 +74,7 @@ async def current_user_callback(call: types.CallbackQuery, gateway: Annotated[DB
         text = (
             f'User ID: <code>{user.id}</code>\n'
             f'User name: {user.first_name} {user.last_name or ""}\n'
-            f'User username: {"@" + user.username if user.username else "No username"}'
+            f'User username: {"@" + user.username if user.username else "No username"}\n'
             f'User premium: {'Yes' if user.is_premium else "No"}'
         )
 
