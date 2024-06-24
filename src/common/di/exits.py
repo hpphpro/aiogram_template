@@ -26,15 +26,14 @@ class Exits:
         await self.aclose()
 
     def close(self) -> None:
-        while self.gens:
-            gen = self.gens.pop()
+        for gen in reversed(self.gens):
             if inspect.isgenerator(gen):
                 next(gen, None)
 
     async def aclose(self) -> None:
-        while self.gens:
-            gen = self.gens.pop()
+        for gen in reversed(self.gens):
             if inspect.isgenerator(gen):
                 next(gen, None)
             elif inspect.isasyncgen(gen):
                 await anext(gen, None)
+                
