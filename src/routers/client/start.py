@@ -41,8 +41,10 @@ async def start_message(
         await repository.create(**user.model_dump())
 
     await message.answer(
-        "Hello World!", 
-        reply_markup=build_inline_markup(paginate_users_button(), button(text='Chat', callback_data='first_menu'))
+        "Hello World!",
+        reply_markup=build_inline_markup(
+            paginate_users_button(), button(text="Chat", callback_data="first_menu")
+        ),
     )
     pagination.clear(identifier)
     await state.set_state()

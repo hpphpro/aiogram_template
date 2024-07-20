@@ -1,7 +1,8 @@
-import asyncio
+from typing import Awaitable, Callable, List, Mapping
 
 from aiogram import Bot, types
 
+from src.app import init_polling
 from src.common.di import DependencyContainer
 from src.common.extensions.chat import Chat
 from src.common.extensions.pagination import Pagination
@@ -11,7 +12,6 @@ from src.core import (
     load_settings,
     load_storage,
 )
-from src.core.logger import log
 from src.database.core.connection import (
     create_sa_engine,
     create_sa_session_factory,
@@ -28,19 +28,31 @@ from src.routers.client import setup_client_router
 from src.routers.examples import setup_example_router
 
 
-async def set_menu_commands(bot: Bot) -> None:
-    await bot.set_my_commands(
-        [types.BotCommand(command="/start", description="Start interacting with bot")]
-    )
+def set_menu_commands(
+    bots_settings: Mapping[Bot, List[types.BotCommand]],
+) -> Callable[[], Awaitable[None]]:
+    async def _startup() -> None:
+        for bot, commands in bots_settings.items():
+            await bot.set_my_commands(commands=commands)
+
+    return _startup
 
 
-async def main() -> None:
+def on_shutdown(*bots: Bot) -> Callable[[], Awaitable[None]]:
+    async def _startup() -> None:
+        for bot in bots:
+            await bot.session.close()
+
+    return _startup
+
+
+def main() -> None:
     settings = load_settings()
     container = DependencyContainer()
     router = setup_routers(
         setup_client_router(),
         setup_admin_router(settings.bot.admins),
-        setup_example_router(), # TODO: delete it, it just for test
+        setup_example_router(),  # TODO: delete it, it just for test
     )
     engine = create_sa_engine(
         settings.db.url,
@@ -53,9 +65,18 @@ async def main() -> None:
     storage = load_storage(settings.redis)
     bot = load_bot(settings.bot)
     dp = load_dispatcher(storage)
-    await bot.delete_webhook(drop_pending_updates=True)
-    await set_menu_commands(bot)
-
+    dp.shutdown.register(on_shutdown(bot))
+    dp.startup.register(
+        set_menu_commands(
+            {
+                bot: [
+                    types.BotCommand(
+                        command="/start", description="Start interacting with bot"
+                    )
+                ]
+            }
+        )
+    )
     session_factory = create_sa_session_factory(engine)
     container[DBGateway] = get_gateway_lazy(session_factory)
 
@@ -69,20 +90,19 @@ async def main() -> None:
         is_outer=False,
     )
 
-    log.info("Bot starting... ")
     try:
-        await dp.start_polling(
+        init_polling(
+            dp,
             bot,
-            allowed_updates=dp.resolve_used_update_types(),
+            drop_pending_updates=True,
             chat=Chat(),
             pagination=Pagination(),
             # here you also can register anything you want as dependency.
             # NOTE: opened resources wont be closed automatically, so you need to use custom Depends or your own middleware
         )
     finally:
-        await bot.session.close()
-        await engine.dispose()
+        engine.sync_engine.dispose()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
