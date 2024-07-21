@@ -68,7 +68,7 @@ def init_webhook(
     )
     app = web.Application()
 
-    SimpleRequestHandler(dispatcher=dp, bot=bot, **dependencies).register(
+    SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=secret_token, **dependencies).register(
         app, path=url_path
     )
 

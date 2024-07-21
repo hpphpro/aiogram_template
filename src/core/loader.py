@@ -2,7 +2,7 @@ from typing import Optional
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.fsm.storage.base import BaseStorage
+from aiogram.fsm.storage.base import BaseStorage, DefaultKeyBuilder
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from src.core.logger import log
@@ -16,7 +16,10 @@ def load_storage(settings: Optional[RedisSettings] = None) -> BaseStorage:
         import redis.asyncio as aioredis
         from aiogram.fsm.storage.redis import RedisStorage
 
-        storage = RedisStorage(redis=aioredis.Redis(**settings.model_dump()))
+        storage = RedisStorage(
+            redis=aioredis.Redis(**settings.model_dump()),
+            key_builder=DefaultKeyBuilder(with_bot_id=True),
+        )
     else:
         storage = MemoryStorage()
 
