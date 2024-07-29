@@ -7,8 +7,8 @@ from src.common.extensions import call_as_message
 
 
 class ErrorMiddleware(BaseMiddleware):
-    def __init__(self, with_backoff_error: bool = True) -> None:
-        self._is_backoff = with_backoff_error
+    def __init__(self, with_backlog_error: bool = True) -> None:
+        self._is_backlog = with_backlog_error
 
     async def __call__(
         self,
@@ -20,7 +20,7 @@ class ErrorMiddleware(BaseMiddleware):
             return await handler(event, data)
         except Exception as e:
             message = "Something goes wrong. Try to restart\n"
-            if self._is_backoff:
+            if self._is_backlog:
                 message += f'Backoff: {e.args[0] if e.args else "Unknown"}'
             if isinstance(event, Message):
                 await event.delete()

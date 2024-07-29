@@ -6,15 +6,18 @@ from src.common.extensions import CallbackType, Chat, call_as_message, on_loadin
 from src.keyboard import build_inline_markup
 from src.keyboard.buttons import back_button, button
 
-# you can also set `on_loading` decorator for long operations in callback 
+
+# you can also set `on_loading` decorator for long operations in callback
 # (with long db transactions or some. May use of some sort of `lock`), to prevent users spam on button
 # so then user can only tap once on button to reach next menu, instead of spamming
 @on_loading()
 async def first_menu_callback(call: types.CallbackQuery, **_: Any) -> CallbackType:
     await call_as_message(call).edit_text(
-        text="First menu", reply_markup=build_inline_markup(button(text='Next', callback_data='second_menu'), back_button())
+        text="First menu",
+        reply_markup=build_inline_markup(
+            button(text="Next", callback_data="second_menu"), back_button()
+        ),
     )
-
     return first_menu_callback
 
 
@@ -30,13 +33,15 @@ async def second_menu_callback(call: types.CallbackQuery, **_: Any) -> CallbackT
 
     return second_menu_callback
 
+
 @on_loading()
 async def third_menu_callback(
     call: types.CallbackQuery, chat: Chat, identifier: str, **_: Any
 ) -> None:
     await call_as_message(call).edit_text(
         # this is last menu, so we just can back above
-        text="Third menu", reply_markup=build_inline_markup(back_button())
+        text="Third menu",
+        reply_markup=build_inline_markup(back_button()),
     )
 
     # we can also set it to callback directly from chat instance

@@ -10,7 +10,7 @@ strict = true
 warn_unreachable = true
 warn_no_return = true
 
-[lint.tool.ruff]
+[tool.ruff]
 ignore = [
   "E501",
   "B008",

@@ -86,7 +86,7 @@ def main() -> None:
         ChatMiddleware(
             wrap_injection=True  # if you want to use custom Dependency without inject decorator.
         ),
-        ErrorMiddleware(with_backoff_error=True),
+        ErrorMiddleware(with_backlog_error=True),
         is_outer=False,
     )
 
